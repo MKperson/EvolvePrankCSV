@@ -154,5 +154,38 @@ namespace Evolve_Prank_Callers
                 submitButton.PerformClick();
             }
         }
+
+        private void btnTaxDbConvert_Click(object sender, EventArgs e)
+        {
+
+
+            OpenFileDialog taxDialog = new OpenFileDialog() { Filter = "TAB|*tab"};
+            if (taxDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    TaxfileConverter taxfileConverter = new TaxfileConverter(taxDialog.FileName);
+
+                    var vals = taxfileConverter.Header;
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void tabSelect_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(tabSelect.SelectedTab.Text == "Block Caller")
+            {
+                Text = "Evolve Prank Callers";
+            }
+            else
+            {
+                Text = "Tax Tabfile Converer";
+            }
+        }
     }
 }

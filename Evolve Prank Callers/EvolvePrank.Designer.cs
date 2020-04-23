@@ -35,14 +35,18 @@
             this.txtNumber = new System.Windows.Forms.TextBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.submitButton = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabSelect = new System.Windows.Forms.TabControl();
             this.tabBlockCaller = new System.Windows.Forms.TabPage();
             this.removeButton = new System.Windows.Forms.Button();
             this.lblNumber = new System.Windows.Forms.Label();
             this.tabTaxDB = new System.Windows.Forms.TabPage();
+            this.lblTaxLable = new System.Windows.Forms.Label();
+            this.progTaxBar = new System.Windows.Forms.ProgressBar();
+            this.btnTaxDbConvert = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.tabControl1.SuspendLayout();
+            this.tabSelect.SuspendLayout();
             this.tabBlockCaller.SuspendLayout();
+            this.tabTaxDB.SuspendLayout();
             this.SuspendLayout();
             // 
             // openEvolveFile
@@ -113,18 +117,19 @@
             this.submitButton.UseVisualStyleBackColor = true;
             this.submitButton.Click += new System.EventHandler(this.submitButton_Click);
             // 
-            // tabControl1
+            // tabSelect
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabBlockCaller);
-            this.tabControl1.Controls.Add(this.tabTaxDB);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(500, 387);
-            this.tabControl1.TabIndex = 5;
+            this.tabSelect.Controls.Add(this.tabBlockCaller);
+            this.tabSelect.Controls.Add(this.tabTaxDB);
+            this.tabSelect.Location = new System.Drawing.Point(12, 12);
+            this.tabSelect.Name = "tabSelect";
+            this.tabSelect.SelectedIndex = 0;
+            this.tabSelect.Size = new System.Drawing.Size(500, 387);
+            this.tabSelect.TabIndex = 5;
+            this.tabSelect.SelectedIndexChanged += new System.EventHandler(this.tabSelect_SelectedIndexChanged);
             // 
             // tabBlockCaller
             // 
@@ -167,6 +172,9 @@
             // 
             // tabTaxDB
             // 
+            this.tabTaxDB.Controls.Add(this.lblTaxLable);
+            this.tabTaxDB.Controls.Add(this.progTaxBar);
+            this.tabTaxDB.Controls.Add(this.btnTaxDbConvert);
             this.tabTaxDB.Location = new System.Drawing.Point(4, 22);
             this.tabTaxDB.Name = "tabTaxDB";
             this.tabTaxDB.Padding = new System.Windows.Forms.Padding(3);
@@ -175,19 +183,48 @@
             this.tabTaxDB.Text = "Tax DB Convert";
             this.tabTaxDB.UseVisualStyleBackColor = true;
             // 
+            // lblTaxLable
+            // 
+            this.lblTaxLable.AutoSize = true;
+            this.lblTaxLable.Location = new System.Drawing.Point(7, 104);
+            this.lblTaxLable.Name = "lblTaxLable";
+            this.lblTaxLable.Size = new System.Drawing.Size(94, 13);
+            this.lblTaxLable.TabIndex = 2;
+            this.lblTaxLable.Text = "Tax Excel Convert";
+            // 
+            // progTaxBar
+            // 
+            this.progTaxBar.Location = new System.Drawing.Point(6, 123);
+            this.progTaxBar.Name = "progTaxBar";
+            this.progTaxBar.Size = new System.Drawing.Size(480, 23);
+            this.progTaxBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progTaxBar.TabIndex = 1;
+            // 
+            // btnTaxDbConvert
+            // 
+            this.btnTaxDbConvert.Location = new System.Drawing.Point(6, 152);
+            this.btnTaxDbConvert.Name = "btnTaxDbConvert";
+            this.btnTaxDbConvert.Size = new System.Drawing.Size(75, 23);
+            this.btnTaxDbConvert.TabIndex = 0;
+            this.btnTaxDbConvert.Text = "Convert";
+            this.btnTaxDbConvert.UseVisualStyleBackColor = true;
+            this.btnTaxDbConvert.Click += new System.EventHandler(this.btnTaxDbConvert_Click);
+            // 
             // EvolvePrank
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(524, 411);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabSelect);
             this.MinimumSize = new System.Drawing.Size(290, 450);
             this.Name = "EvolvePrank";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Evolve Prank Callers";
-            this.tabControl1.ResumeLayout(false);
+            this.tabSelect.ResumeLayout(false);
             this.tabBlockCaller.ResumeLayout(false);
             this.tabBlockCaller.PerformLayout();
+            this.tabTaxDB.ResumeLayout(false);
+            this.tabTaxDB.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -201,12 +238,15 @@
         private System.Windows.Forms.TextBox txtNumber;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button submitButton;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabSelect;
         private System.Windows.Forms.TabPage tabBlockCaller;
         private System.Windows.Forms.TabPage tabTaxDB;
         private System.Windows.Forms.Button removeButton;
         private System.Windows.Forms.Label lblNumber;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Label lblTaxLable;
+        private System.Windows.Forms.ProgressBar progTaxBar;
+        private System.Windows.Forms.Button btnTaxDbConvert;
     }
 }
 
