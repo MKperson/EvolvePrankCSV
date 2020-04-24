@@ -165,8 +165,31 @@ namespace Evolve_Prank_Callers
                 try
                 {
                     TaxfileConverter taxfileConverter = new TaxfileConverter(taxDialog.FileName);
+                    SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "CSV|*csv" };
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK) 
+                    {
+                        var csvFilename = saveFileDialog.FileName;
+                        StringBuilder csv = new StringBuilder();
+                        foreach (string[] varr in taxfileConverter.Data)
+                        {
+                            var line = "";
+                            for(int i = 0; i< varr.Length; i++)
+                            {                                
+                                if (i == 0)
+                                {
+                                    line = varr[i];
+                                }
+                                else
+                                {
+                                    line += "," + varr[i];
+                                }                                
+                            }
+                            csv.AppendLine(line.ToString());
+                        }
+                        File.WriteAllText(csvFilename, csv.ToString());
 
-                    var vals = taxfileConverter.Header;
+                        MessageBox.Show("Your data has been successfuly saved.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
 
                 }
                 catch (Exception ex)
