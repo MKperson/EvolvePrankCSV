@@ -61,10 +61,19 @@
     <Compile Include="EvolvePrank.Designer.cs">
       <DependentUpon>EvolvePrank.cs</DependentUpon>
     </Compile>
+    <Compile Include="passwordDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="passwordDialog.Designer.cs">
+      <DependentUpon>passwordDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EvolvePrank.resx">
       <DependentUpon>EvolvePrank.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="passwordDialog.resx">
+      <DependentUpon>passwordDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
