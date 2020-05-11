@@ -213,7 +213,14 @@ namespace Evolve_Prank_Callers
 
 		private void EvolvePrank_Load(object sender, EventArgs e)
 		{
+			DbConnect db = new DbConnect();
 			tabSelect.TabPages[1].Enabled = false;
+			db.Open();
+			MessageBox.Show("Connected Success");
+
+			db.Close();
+
+
 		}
 
 		private void tabSelect_Selecting(object sender, TabControlCancelEventArgs e)

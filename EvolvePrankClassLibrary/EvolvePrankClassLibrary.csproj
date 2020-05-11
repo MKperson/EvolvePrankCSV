@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CsvVals.cs" />
+    <Compile Include="DbConnect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaxfileConverter.cs" />
   </ItemGroup>
