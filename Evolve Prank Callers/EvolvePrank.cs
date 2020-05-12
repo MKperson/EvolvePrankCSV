@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using EvolvePrankClassLibrary;
+using MySql.Data.MySqlClient;
 
 namespace Evolve_Prank_Callers
 {
@@ -213,12 +214,66 @@ namespace Evolve_Prank_Callers
 
 		private void EvolvePrank_Load(object sender, EventArgs e)
 		{
-			DbConnect db = new DbConnect();
+			DbConnect db = DbConnect.Instance();
+			db.DatabaseName = "evolve_prank";
 			tabSelect.TabPages[1].Enabled = false;
-			db.Open();
-			MessageBox.Show("Connected Success");
+			if (db.IsConnect())
+			{
 
-			db.Close();
+				//MessageBox.Show("Connected Success");
+				string headerquery = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = blocklist";
+				var headers = new MySqlCommand(headerquery, db.Connection);
+				var hreader = headers.ExecuteReader();
+				while (hreader.Read())
+				{
+					string s = "";
+					for (int i = 0; i < hreader.FieldCount; i++)
+					{
+						if (i == 0)
+						{
+							s = hreader.GetString(0);
+						}
+						else
+						{
+							s += ", " + hreader.GetString(i);
+						}
+
+					}
+					currentData.Items.Add(s);
+				}
+				string query = "SELECT * FROM blocklist";
+				var cmd = new MySqlCommand(query, db.Connection);
+				var reader = cmd.ExecuteReader();
+				
+
+
+				while (reader.Read())
+				{
+					string s = "";
+					for(int i = 0; i < reader.FieldCount; i++)
+					{
+						if (i == 0)
+						{
+							s = reader.GetString(0);
+						}
+						else
+						{
+							s += ", " + reader.GetString(i);
+						}
+							
+					}
+					currentData.Items.Add(s);
+					//MessageBox.Show(s);
+				}
+
+				db.Close();
+			}
+			else
+			{
+				MessageBox.Show("Connection Failed");
+			}
+			
+			
 
 
 		}
