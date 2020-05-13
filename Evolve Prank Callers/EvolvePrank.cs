@@ -10,12 +10,15 @@ using System.Windows.Forms;
 using System.IO;
 using EvolvePrankClassLibrary;
 using MySql.Data.MySqlClient;
+using System.Data.Common;
 
 namespace Evolve_Prank_Callers
 {
 	public partial class EvolvePrank : Form
 	{
 		List<CsvVals> values;
+		DbConnect db = DbConnect.Instance();
+
 		public EvolvePrank()
 		{
 			InitializeComponent();
@@ -37,10 +40,10 @@ namespace Evolve_Prank_Callers
 					{
 						currentData.Items.Add(string.Format(boxformat, arrconvert(val.Line)));
 					}
-					txtNumber.Enabled = true;
-					submitButton.Enabled = true;
-					removeButton.Enabled = true;
-					saveButton.Enabled = true;
+					//txtNumber.Enabled = true;
+					//submitButton.Enabled = true;
+					//removeButton.Enabled = true;
+					//saveButton.Enabled = true;
 				}
 				catch (Exception ex)
 				{
@@ -51,8 +54,6 @@ namespace Evolve_Prank_Callers
 		}
 		public string headerformat(CsvVals header)
 		{
-
-
 			string boxformat = "";
 			for (int i = 0; i < header.Count; i++)
 			{
@@ -100,7 +101,9 @@ namespace Evolve_Prank_Callers
 					}
 					values.Add(val);
 					currentData.Items.Add(string.Format(headerformat(values[0]), val.Line.ToArray()));
-
+					MessageBox.Show(num.ToString("###-###-####") + " was added");
+					txtNumber.Text = "";
+					txtNumber.Focus();
 
 				}
 			}
@@ -115,19 +118,39 @@ namespace Evolve_Prank_Callers
 		}
 		private void saveButton_Click(object sender, EventArgs e)
 		{
-			using (saveEvolveFile = new SaveFileDialog() { Filter = "CSV (Comma delimited)|*.csv", ValidateNames = true })
+			using (saveEvolveFile = new SaveFileDialog() { Filter = "CSV (Comma delimited)|*.csv", ValidateNames = true, FileName = "ANIBlockerUpdate", RestoreDirectory = true })
 			{
+				saveEvolveFile.InitialDirectory = "C:\\Users\\" + Environment.UserName + "\\Desktop";
 
 				if (saveEvolveFile.ShowDialog() == DialogResult.OK)
 				{
+					string query = "";
 					var csvFilename = saveEvolveFile.FileName;
 					StringBuilder csv = new StringBuilder();
 					foreach (CsvVals v in values)
 					{
 						csv.AppendLine(v.ToString());
 					}
+					bool head = true;
+					foreach (CsvVals v in values)
+					{
+						if (!head)
+						{
+							query = "INSERT INTO blocklist(CustomerID,CustomerPhoneNumber) VALUES("+v.Line[0]+","+ v.Line[2]+ " )ON DUPLICATE KEY UPDATE CustomerPhoneNumber = "+ v.Line[2] + ";";
+							if (db.IsConnect())
+							{
+								
+								var cmd = new MySqlCommand(query, db.Connection);
+								var row = cmd.ExecuteNonQuery();
+								db.Close();
+							}
+						}
+						head = false;
+					}
 					File.WriteAllText(csvFilename, csv.ToString());
 
+					/**/
+					
 					MessageBox.Show("Your data has been successfuly saved.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
 			}
@@ -140,10 +163,17 @@ namespace Evolve_Prank_Callers
 			{
 				values.Remove(values[index]);
 				currentData.Items.Remove(currentData.Items[index]);
+				string query = "delete from evolve_prank.blocklist where `CustomerID` ="+ index +";";
+				if (db.IsConnect())
+				{
+					var cmd = new MySqlCommand(query, db.Connection);
+					var row = cmd.ExecuteNonQuery();
+					db.Close();
+				}
 			}
 			else
 			{
-				MessageBox.Show("Im sorry the row you are trying to remove is a header.", "ID-10-T", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Im sorry the row you are trying to remove is a header.", "I.D.10-T", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 		}
@@ -214,63 +244,51 @@ namespace Evolve_Prank_Callers
 
 		private void EvolvePrank_Load(object sender, EventArgs e)
 		{
-			DbConnect db = DbConnect.Instance();
+			
 			db.DatabaseName = "evolve_prank";
 			tabSelect.TabPages[1].Enabled = false;
 			if (db.IsConnect())
 			{
-
-				//MessageBox.Show("Connected Success");
-				string headerquery = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = blocklist";
-				var headers = new MySqlCommand(headerquery, db.Connection);
-				var hreader = headers.ExecuteReader();
-				while (hreader.Read())
-				{
-					string s = "";
-					for (int i = 0; i < hreader.FieldCount; i++)
-					{
-						if (i == 0)
-						{
-							s = hreader.GetString(0);
-						}
-						else
-						{
-							s += ", " + hreader.GetString(i);
-						}
-
-					}
-					currentData.Items.Add(s);
-				}
 				string query = "SELECT * FROM blocklist";
 				var cmd = new MySqlCommand(query, db.Connection);
 				var reader = cmd.ExecuteReader();
-				
-
-
+				string head = "";
+				for (int i = 0; i < reader.FieldCount; i++)
+				{
+					head += (i == 0 ? "":"," ) + reader.GetName(i) ;
+				}
+				values = new List<CsvVals>();
+				CsvVals dbvals = new CsvVals();
+				string[] avalues = head.Split(',');
+				foreach (string val in avalues)
+				{
+					dbvals.Line.Add(val);
+				}
+				values.Add(dbvals);
+				currentData.Items.Add(string.Format(headerformat(values[0]), dbvals.Line.ToArray()));
 				while (reader.Read())
 				{
-					string s = "";
+					dbvals = new CsvVals();
+					string data = "";
 					for(int i = 0; i < reader.FieldCount; i++)
 					{
-						if (i == 0)
-						{
-							s = reader.GetString(0);
-						}
-						else
-						{
-							s += ", " + reader.GetString(i);
-						}
-							
+						data += (i == 0 ? "" : ",") + reader.GetValue(i).ToString();
 					}
-					currentData.Items.Add(s);
-					//MessageBox.Show(s);
+					avalues = data.Split(',');
+					foreach (string val in avalues)
+					{
+						dbvals.Line.Add(val);
+					}
+					values.Add(dbvals);
+					currentData.Items.Add(string.Format(headerformat(values[0]), dbvals.Line.ToArray()));
 				}
 
 				db.Close();
 			}
 			else
 			{
-				MessageBox.Show("Connection Failed");
+				MessageBox.Show("Connection Failed please contact System Administrator","Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				this.Close();
 			}
 			
 			
@@ -297,7 +315,7 @@ namespace Evolve_Prank_Callers
 					Size = new Size(290, 450);
 					removeButton.Visible = true;
 					LoadButton.Visible = true;
-					saveButton.Visible = true;
+					//saveButton.Visible = true;
 				}
 				else
 				{
@@ -310,7 +328,7 @@ namespace Evolve_Prank_Callers
 				currentData.Visible = false;
 				removeButton.Visible = false;
 				LoadButton.Visible = false;
-				saveButton.Visible = false;
+				//saveButton.Visible = false;
 			}
 		}
 	}

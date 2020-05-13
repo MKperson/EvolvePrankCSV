@@ -37,6 +37,7 @@
             this.submitButton = new System.Windows.Forms.Button();
             this.tabSelect = new System.Windows.Forms.TabControl();
             this.tabBlockCaller = new System.Windows.Forms.TabPage();
+            this.adminCheckBox = new System.Windows.Forms.CheckBox();
             this.removeButton = new System.Windows.Forms.Button();
             this.lblNumber = new System.Windows.Forms.Label();
             this.tabTaxDB = new System.Windows.Forms.TabPage();
@@ -44,7 +45,6 @@
             this.progTaxBar = new System.Windows.Forms.ProgressBar();
             this.btnTaxDbConvert = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.adminCheckBox = new System.Windows.Forms.CheckBox();
             this.tabSelect.SuspendLayout();
             this.tabBlockCaller.SuspendLayout();
             this.tabTaxDB.SuspendLayout();
@@ -98,7 +98,6 @@
             // 
             this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveButton.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.saveButton.Enabled = false;
             this.saveButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.saveButton.ForeColor = System.Drawing.SystemColors.ControlText;
             this.saveButton.Location = new System.Drawing.Point(161, 89);
@@ -107,7 +106,6 @@
             this.saveButton.TabIndex = 3;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = false;
-            this.saveButton.Visible = false;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // submitButton
@@ -155,10 +153,22 @@
             this.tabBlockCaller.Text = "Block Caller";
             this.tabBlockCaller.UseVisualStyleBackColor = true;
             // 
+            // adminCheckBox
+            // 
+            this.adminCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.adminCheckBox.AutoSize = true;
+            this.adminCheckBox.Location = new System.Drawing.Point(9, 27);
+            this.adminCheckBox.Name = "adminCheckBox";
+            this.adminCheckBox.Size = new System.Drawing.Size(85, 17);
+            this.adminCheckBox.TabIndex = 7;
+            this.adminCheckBox.Text = "Admin Mode";
+            this.adminCheckBox.UseVisualStyleBackColor = true;
+            this.adminCheckBox.CheckedChanged += new System.EventHandler(this.adminCheckBox_CheckedChanged);
+            // 
             // removeButton
             // 
             this.removeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeButton.Enabled = false;
             this.removeButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.removeButton.Location = new System.Drawing.Point(161, 29);
             this.removeButton.Name = "removeButton";
@@ -188,9 +198,9 @@
             this.tabTaxDB.Location = new System.Drawing.Point(4, 22);
             this.tabTaxDB.Name = "tabTaxDB";
             this.tabTaxDB.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTaxDB.Size = new System.Drawing.Size(492, 361);
+            this.tabTaxDB.Size = new System.Drawing.Size(242, 118);
             this.tabTaxDB.TabIndex = 1;
-            this.tabTaxDB.Text = "Tax DB Convert";
+            this.tabTaxDB.Text = "TBD";
             this.tabTaxDB.UseVisualStyleBackColor = true;
             // 
             // lblTaxLable
@@ -219,19 +229,6 @@
             this.btnTaxDbConvert.Text = "Convert";
             this.btnTaxDbConvert.UseVisualStyleBackColor = true;
             this.btnTaxDbConvert.Click += new System.EventHandler(this.btnTaxDbConvert_Click);
-            // 
-            // adminCheckBox
-            // 
-            this.adminCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.adminCheckBox.AutoSize = true;
-            this.adminCheckBox.Location = new System.Drawing.Point(9, 27);
-            this.adminCheckBox.Name = "adminCheckBox";
-            this.adminCheckBox.Size = new System.Drawing.Size(85, 17);
-            this.adminCheckBox.TabIndex = 7;
-            this.adminCheckBox.Text = "Admin Mode";
-            this.adminCheckBox.UseVisualStyleBackColor = true;
-            this.adminCheckBox.CheckedChanged += new System.EventHandler(this.adminCheckBox_CheckedChanged);
             // 
             // EvolvePrank
             // 

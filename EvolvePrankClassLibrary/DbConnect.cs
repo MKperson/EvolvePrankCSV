@@ -47,7 +47,11 @@ namespace EvolvePrankClassLibrary
                 
                     connection = new MySqlConnection(connstring);
                     connection.Open();
-                }
+            }
+            else
+            {
+                connection.Open();
+            }
 
                 return true;
             }
