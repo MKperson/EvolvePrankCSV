@@ -43,7 +43,7 @@ namespace EvolvePrankClassLibrary
                 {
                     if (String.IsNullOrEmpty(databaseName))
                         return false;
-                    string connstring = string.Format("server=tms-hvgs-mysql;UID=root; password=tmsit; database={0}", databaseName);
+                    string connstring = string.Format("server={0};UID={1}; password={2}; database={3}",server,UID,password,databaseName);
                 
                     connection = new MySqlConnection(connstring);
                     connection.Open();
